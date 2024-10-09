@@ -16,11 +16,9 @@ const NavBar = () => {
             <Link to={"/employee"}>Employee</Link>
           </li>
           <li>
-            <Link to={"/add"}> Add Employee</Link>
+            <Link to={"/"}> Add Employee</Link>
           </li>
-          <li>
-            <Link to={"/update"}>update Employee</Link>
-          </li>
+
           <li onClick={logOut}>
             <Link to={"/logout"}>Log out</Link>
           </li>

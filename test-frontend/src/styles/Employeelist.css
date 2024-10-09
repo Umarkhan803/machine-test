@@ -1,0 +1,43 @@
+.employee {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.employee-list-container {
+  display: flex;
+  margin-top: 50px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+ul li {
+  list-style-type: none;
+}
+.employee-list,
+.employee-header {
+  display: flex;
+  margin-right: 20px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(45, 157, 231);
+}
+.employee-header li {
+  padding: 20px;
+  margin-right: 40px;
+}
+.employee-list li {
+  padding: 20px;
+  margin-right: 20px;
+}
+.employee-list {
+  text-align: center;
+}
+.employee-list ul li {
+  display: inline-block;
+  width: 150px;
+  border: 1px solid skyblue;
+  padding: 5px;
+}

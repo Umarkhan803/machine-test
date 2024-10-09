@@ -15,7 +15,7 @@ const SignUp = () => {
   }, []);
   const collectDate = async () => {
     console.log(name, email, password);
-    let result = await fetch("", {
+    let result = await fetch("http://localhost:5000/signup", {
       method: "post",
       body: JSON.stringify({ name, email, password }),
       headers: {
@@ -25,7 +25,7 @@ const SignUp = () => {
     result = await result.json();
     localStorage.setItem("user", JSON.stringify(result.result));
     localStorage.setItem("auth", JSON.stringify(result.auth));
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -64,7 +64,7 @@ const SignUp = () => {
             />
           </div>
           <button onClick={collectDate} className="submit-btn">
-            Submit
+            Sign Up
           </button>
         </form>
       </div>

@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-function AddEmployee({ setImage }) {
+import { useParams, useNavigate } from "react-router-dom";
+
+const UpdateEmployee = ({ setImage }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState();
   const [designation, setDesignation] = useState("");
   const [gender, setGender] = useState("");
   const [course, setCourse] = useState("");
+  const navigate = useNavigate();
+  const params = useParams();
 
   const [error, setError] = useState(false);
   const handleDropdownChange = (event) => {
@@ -18,17 +22,14 @@ function AddEmployee({ setImage }) {
   const handleRadioChange = (event) => {
     setGender(event.target.value);
   };
-
-  const handleFileChange = (event) => {
+  const handleImage = (event) => {
     const file = event.target.files[0];
 
-    // Check if file exists and is of type 'image/jpeg' or 'image/png'
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
       const reader = new FileReader();
 
-      // Read the file as a data URL (base64)
       reader.onloadend = () => {
-        setImage(reader.result); // Update parent state with the base64 data
+        setImage(reader.result);
       };
 
       reader.readAsDataURL(file);
@@ -36,16 +37,25 @@ function AddEmployee({ setImage }) {
       alert("Please upload a valid JPG or PNG file.");
     }
   };
+  useEffect(() => {
+    getProductDetails();
+  }, []);
 
-  const addEmployee = async () => {
-    if (!name || !email || !mobile || !designation || !gender || !course) {
-      setError(true);
-      return false;
-    }
+  const getProductDetails = async () => {
+    console.warn(params);
+    let result = await fetch(`http://localhost:5000/employee/${params.id}`);
+    result = await result.json();
+    setName(result.name);
+    setEmail(result.email);
+    setMobile(result.mobile);
+    setDesignation(result.designation);
+    setGender(result.gender);
+    setCourse(result.course);
+  };
 
-    const userId = JSON.parse(localStorage.getItem("user"))._id;
-    let result = await fetch("http://localhost:5000/add-employee", {
-      method: "post",
+  const updateProduct = async () => {
+    let result = await fetch(`http://localhost:5000/employee/${params.id}`, {
+      method: "Put",
       body: JSON.stringify({
         name,
         email,
@@ -55,17 +65,19 @@ function AddEmployee({ setImage }) {
         course,
       }),
       headers: {
-        "Content-type": "application/json",
+        "Content-Type": "Application/json",
       },
     });
     result = await result.json();
-    console.warn(result);
+    if (result) {
+      navigate("/");
+    }
   };
 
   return (
     <div className="addEmployee">
       <form className="employeeForm">
-        <h1>Add Employee</h1>
+        <h1>Update Employee</h1>
         <input
           type="text"
           placeholder="Enter Employee name"
@@ -115,7 +127,6 @@ function AddEmployee({ setImage }) {
           <span className="invalid-input">Enter valid designation</span>
         )}
         <label>
-          Gender
           <input
             type="radio"
             value="male"
@@ -133,11 +144,11 @@ function AddEmployee({ setImage }) {
           />
           Female
         </label>
+
         {error && !gender && (
           <span className="invalid-input">Enter valid gender</span>
         )}
         <div>
-          Course
           <label>
             <input
               type="checkbox"
@@ -147,6 +158,7 @@ function AddEmployee({ setImage }) {
             BCA
           </label>
         </div>
+
         <div>
           <label>
             <input
@@ -157,6 +169,7 @@ function AddEmployee({ setImage }) {
             BCom
           </label>
         </div>
+
         <div>
           <label>
             <input
@@ -170,14 +183,15 @@ function AddEmployee({ setImage }) {
         <input
           type="file"
           accept="image/jpeg, image/png"
-          onChange={handleFileChange}
+          onChange={handleImage}
         />
-        <button onClick={addEmployee} className="addButton">
+
+        <button onClick={updateProduct} className="addButton">
           Add Employee
         </button>
       </form>
     </div>
   );
-}
+};
 
-export default AddEmployee;
+export default UpdateEmployee;
