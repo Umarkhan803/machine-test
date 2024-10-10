@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Employee = ({ image }) => {
+const Employee = ({ formDate }) => {
+  // const { photo } = formDate;
   const [employee, setEmployees] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   useEffect(() => {
@@ -68,7 +69,7 @@ const Employee = ({ image }) => {
               <li>{index + 1}</li>
               <li>
                 <img
-                  src={image}
+                  src={formDate}
                   alt="profile "
                   style={{ width: "300px", height: "auto" }}
                 />

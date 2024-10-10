@@ -1,12 +1,14 @@
 import React from "react";
 import { useState } from "react";
-function AddEmployee({ setImage }) {
+function AddEmployee({ setFormData }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState();
   const [designation, setDesignation] = useState("");
   const [gender, setGender] = useState("");
   const [course, setCourse] = useState("");
+
+  const [image, setImage] = useState(null);
 
   const [error, setError] = useState(false);
   const handleDropdownChange = (event) => {
@@ -22,13 +24,11 @@ function AddEmployee({ setImage }) {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
-    // Check if file exists and is of type 'image/jpeg' or 'image/png'
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
       const reader = new FileReader();
 
-      // Read the file as a data URL (base64)
       reader.onloadend = () => {
-        setImage(reader.result); // Update parent state with the base64 data
+        setImage(reader.result);
       };
 
       reader.readAsDataURL(file);
@@ -60,6 +60,7 @@ function AddEmployee({ setImage }) {
     });
     result = await result.json();
     console.warn(result);
+    setFormData(image);
   };
 
   return (

@@ -7,22 +7,35 @@ import Employee from "./Components/Employee";
 import AddEmployee from "./Components/AddEmployee";
 import { useState } from "react";
 import UpdateEmployee from "./Components/UpdateEmployee";
+import PrivateComponent from "./Components/PrivateComponent";
 function App() {
-  const [image, setImage] = useState(null);
+  const [formData, setFormData] = useState({
+    photo: null,
+  });
 
   return (
     <>
       <BrowserRouter>
         <NavBar />
         <Routes>
-          <Route path="/" element={<AddEmployee setImage={setImage} />} />
+          <Route element={<PrivateComponent />}>
+            <Route
+              path="/employee"
+              element={<Employee formData={formData} />}
+            />
+            <Route
+              path="/update/:id"
+              element={<UpdateEmployee setFormData={setFormData} />}
+            />
+          </Route>
+          <Route
+            path="/"
+            element={
+              <AddEmployee formData={formData} setFormData={setFormData} />
+            }
+          />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
-          <Route
-            path="/update/:id"
-            element={<UpdateEmployee setImage={setImage} />}
-          />
-          <Route path="/employee" element={<Employee image={image} />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -14,7 +14,7 @@ const LogIn = () => {
   }, []);
   const handelLogin = async () => {
     console.log(email, password);
-    let result = await fetch("", {
+    let result = await fetch("http://localhost:5000/login", {
       method: "post",
       body: JSON.stringify({ email, password }),
       headers: {
@@ -24,7 +24,7 @@ const LogIn = () => {
     result = await result.json();
     localStorage.setItem("user", JSON.stringify(result.result));
     localStorage.setItem("auth", JSON.stringify(result.auth));
-    navigate("/employee");
+    navigate("/");
   };
   return (
     <div className="signUp">
